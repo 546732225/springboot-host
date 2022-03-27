@@ -1,0 +1,87 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  tomcat:
+    accesslog:
+      encoding: UTF-8
+    uri-encoding: UTF-8
+
+
+spring:
+  application:
+    name: SpringBootExampleApplication
+  profiles:
+    active: dev
+    include: mybatis
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    sentinel:
+      transport:
+        dashboard: local.sentinel.com:8082
+        heartbeat-interval-ms: 500
+      enabled: true
+
+  datasource:
+    url: jdbc:mysql://local.mysql.com:3306/db_example?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  redis:
+    port: 6379
+    host: local.redis.com
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1m
+
+
+  devtools:
+    restart:
+      log-condition-evaluation-delta: true
+      exclude: static/**,public/**
+
+
+  task:
+    execution:
+      pool:
+        keep-alive: 10s
+        max-size: 16
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 2
+      thread-name-prefix: scheduling-
+
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    locale: zh_CN
+
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+
+
+
+logging:
+  level:
+    root: info
+    com.example.data: debug
+
+
+springfox:
+  documentation:
+    enabled: true
+
+
+
+
+

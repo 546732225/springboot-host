@@ -1,0 +1,45 @@
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: dev
+    include: mybatis
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://local.mysql.com:3306/db_example?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  redis:
+    port: 6379
+    host: local.redis.com
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1m
+
+
+
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+
+logging:
+  level:
+    root: info
+    com.example.data: debug
+
+
+springfox:
+  documentation:
+    enabled: true

@@ -1,0 +1,16 @@
+mybatis:
+  typeAliasesPackage: com.example.data.*.domain
+  mapperLocations: classpath*:com/example/data/**/mapper/xml/*.xml
+  configuration:
+
+    map-underscore-to-camel-case: true
+mybatis-plus:
+
+  typeAliasesPackage: com.example.data.*.domain
+  mapperLocations: classpath*:com/example/data/**/mapper/xml/*.xml
+  global-config:
+    banner: false
+    enable-sql-runner: true
+  configuration:
+    map-underscore-to-camel-case: true
+  check-config-location: true
