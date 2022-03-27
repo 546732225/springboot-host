@@ -18,7 +18,7 @@ nohup java -jar   \
 
 echo -e "\033[34m  App running at:    \033[0m"
 echo -e "\033[34m     - Running  server params  spring.profiles.active:  ${SERVER_ACTIVE}  server.port: ${SERVER_PORT} \033[0m"
-echo ''
+echo -e ""
 echo -e "\033[34m     - Local:      http://localhost:${SERVER_PORT}/   \033[0m"
 echo -e "\033[34m     - Network:    http://${HOST}:${SERVER_PORT}/ \033[0m"
 echo -e "\033[34m     - SwaggerApi: http://${HOST}:${SERVER_PORT}/doc.html#/home \033[0m"
