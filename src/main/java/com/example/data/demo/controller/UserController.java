@@ -5,8 +5,6 @@ import com.example.data.demo.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import com.example.data.framework.RestResponse;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +43,6 @@ public class UserController {
 
     @PostMapping("user")
     @ApiOperation(value = "新增用户", notes = "新增用户信息", response = RestResponse.class)
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "ennotestity", value = "用户实体信息", required = true),
-    })
     public RestResponse<Void> insert(@RequestBody UserEntity entity) {
 //        return RestResponse.restForJson((RestProcess) () -> userService.insert(entity));
         return RestResponse.success();
@@ -56,7 +51,6 @@ public class UserController {
 
     @PutMapping("user")
     @ApiOperation(value = "修改用户")
-    @ApiImplicitParam(name = "entity", value = "用户实体信息", dataTypeClass = UserEntity.class)
     public RestResponse<Void> update(@RequestBody UserEntity entity) {
         userService.update(entity);
         return RestResponse.success();
@@ -64,7 +58,6 @@ public class UserController {
 
     @PatchMapping("user")
     @ApiOperation(value = "修改用户")
-    @ApiImplicitParam(name = "entity", value = "用户实体信息")
     public RestResponse<Void> patch(@RequestBody UserEntity entity) {
         userService.update(entity);
         return RestResponse.success();
