@@ -5,6 +5,7 @@ import com.example.data.core.CacheKeyGenerator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -20,23 +21,26 @@ import java.lang.reflect.Method;
 @Configuration
 public class CacheLockMethodInterceptor {
 
-
+    private final StringRedisTemplate stringRedisTemplate;
+    private final CacheKeyGenerator cacheKeyGenerator;
 
     @Autowired
-    public CacheLockMethodInterceptor(StringRedisTemplate stringRedisTemplate, CacheKeyGenerator cacheKeyGenerator){
+    public CacheLockMethodInterceptor(StringRedisTemplate stringRedisTemplate, CacheKeyGenerator cacheKeyGenerator) {
         this.cacheKeyGenerator = cacheKeyGenerator;
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    private final StringRedisTemplate stringRedisTemplate;
-    private final CacheKeyGenerator cacheKeyGenerator;
 
-    @Around("execution(public * * (..)) && @annotation(com.example.data.annotation.CacheLock)")
-    public Object interceptor(ProceedingJoinPoint joinPoint){
+    @Pointcut(value = "@annotation(cacheLock)")
+    public void pointCut(CacheLock cacheLock) {
+    }
+
+    @Around(value = "execution(public * * (..)) && pointCut(cacheLock)", argNames = "joinPoint,cacheLock")
+    public Object interceptor(ProceedingJoinPoint joinPoint, CacheLock cacheLock) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        CacheLock cacheLock = method.getAnnotation(CacheLock.class);
-        if(StringUtils.isEmpty(cacheLock.prefix())){
+
+        if (StringUtils.isEmpty(cacheLock.prefix())) {
             throw new RuntimeException("前缀不能为空");
         }
         //获取自定义key
