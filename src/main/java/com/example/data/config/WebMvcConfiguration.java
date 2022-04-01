@@ -1,6 +1,8 @@
 package com.example.data.config;
 
 
+import com.example.data.core.CacheKeyGenerator;
+import com.example.data.core.CacheKeyGeneratorImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,6 +21,12 @@ import java.util.Locale;
 
 @Configuration
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
+
+    @Bean
+    public CacheKeyGenerator cacheKeyGenerator(){
+        return new CacheKeyGeneratorImp();
+    }
+
 
 
     @Bean

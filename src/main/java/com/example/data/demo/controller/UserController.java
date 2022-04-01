@@ -1,10 +1,13 @@
 package com.example.data.demo.controller;
 
+import com.example.data.annotation.LocalLock;
 import com.example.data.demo.domain.UserEntity;
 import com.example.data.demo.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import com.example.data.framework.RestResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,7 @@ public class UserController {
 
 
     @GetMapping("user")
+    @LocalLock(key = "localLock:user:arg[0]")
     @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
     public RestResponse<List<UserEntity>> list(@Validated UserQuery query) {
         return RestResponse.success(userService.list(query));
@@ -42,9 +46,10 @@ public class UserController {
 
 
     @PostMapping("user")
+    @LocalLock(key = "localLock:insert:user:arg[0]")
     @ApiOperation(value = "新增用户", notes = "新增用户信息", response = RestResponse.class)
     public RestResponse<Void> insert(@RequestBody UserEntity entity) {
-//        return RestResponse.restForJson((RestProcess) () -> userService.insert(entity));
+        userService.insert(entity);
         return RestResponse.success();
     }
 
@@ -77,5 +82,9 @@ public class UserController {
         userService.delete(id);
         return RestResponse.success();
     }
+
+
+
+
 
 }
