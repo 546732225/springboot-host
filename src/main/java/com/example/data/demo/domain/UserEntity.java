@@ -3,7 +3,7 @@ package com.example.data.demo.domain;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.data.annotation.CheckSqlInjection;
-import com.example.data.annotation.DictParam;
+import com.example.data.annotation.FieldParam;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -40,7 +40,7 @@ public class UserEntity implements Serializable {
     private String status;
 
 
-    @DictParam
+    @FieldParam
     private String gender;
 
 

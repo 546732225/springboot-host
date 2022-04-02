@@ -29,19 +29,13 @@ public class TransformController {
     @GetMapping("list")
     @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
     public RestResponse<List<UserEntity>> list(@Validated UserQuery query) {
-
-        List<UserEntity> list = userService.list(query);
-        System.out.println(list);
-        return RestResponse.success(list);
+        return RestResponse.success(userService.list(query));
     }
 
 
     @GetMapping("detail")
     public RestResponse<Object> detail() throws InterruptedException {
-        Object detail = userService.detail("1507239673481695233");
-        System.out.println(detail);
-        return RestResponse.success(detail);
+        return RestResponse.success(userService.detail("1507239673481695233"));
     }
-
 
 }

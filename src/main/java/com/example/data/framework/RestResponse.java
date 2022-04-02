@@ -63,6 +63,7 @@ public class RestResponse<T> {
     @Setter
     private static class SuccessEntity<T> extends RestResponse<T> {
 
+        @ApiModelProperty(example = "{}", value = "返回结果")
         private T data;
 
         private SuccessEntity(T data) {
@@ -87,7 +88,11 @@ public class RestResponse<T> {
     @Getter
     @Setter
     private static class FailureEntity<Void> extends RestResponse<Void> {
+
+        @ApiModelProperty(example = "string", value = "错误信息")
         private Object error;
+
+        @ApiModelProperty(example = "string", value = "请求路径")
         private String path;
 
         private FailureEntity(Integer code, String message) {

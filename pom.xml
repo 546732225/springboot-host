@@ -148,7 +148,18 @@
         </dependency>
 
 
+        <!--使用cglib 为javabean动态添加属性-->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
 
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>3.3.0</version>
+        </dependency>
 
 
     </dependencies>
