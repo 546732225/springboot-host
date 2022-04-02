@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE configuration>-->
+<!--<configuration scan="false" scanPeriod="60 seconds" debug="false">-->
+<configuration>
+    <!--日志格式应用spring boot默认的格式，也可以自己更改-->
+    <!--    <include resource="org/springframework/boot/logging/logback/default.xml"/>-->
+    <!--    <jmxConfigurator/>-->
+
+    <!-- 自定义属性 -->
+    <springProperty name="APPLICATION_NAME" scope="context" source="spring.application.name" defaultValue="nameless"/>
+    <springProperty name="MAX_HISTORY" scope="context" source="logback.max-history" defaultValue="7"/>
+    <springProperty name="MAX_FILESIZE" scope="context" source="logback.file-size" defaultValue="200MB"/>
+    <springProperty name="SERVER_IP" scope="context" source="spring.cloud.client.ip-address" defaultValue="0.0.0.0"/>
+    <springProperty name="SERVER_PORT" scope="context" source="server.port" defaultValue="0000"/>
+
+    <!--配置变量-->
+    <!--文件路径前缀-->
+    <property name="LOG_HOME_PATH" value="logs/${APPLICATION_NAME}"/>
+    <!--    <property name="CONSOLE_LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} | %highlight(%-5level) | %boldYellow(%thread) | %boldGreen(%logger) | [%c{0}:%L] : %msg%n"/>-->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%green(%date{yyyy-MM-dd HH:mm:ss}){faint} | %magenta(%lsn)| %highlight(%-5level) | %cyan(%X{requestId}) | %yellow(%thread)| %green(%logger{50}) | [%c{0}:%L] : %cyan(%msg%n)"/>
+
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+    <property name="FILE_LOG_PATTERN"
+              value="[${SERVER_IP}:${SERVER_PORT}] | %d{yyyy-MM-dd HH:mm:ss}| [%thread] |%X{requestId} %-5level| %logger{50:%L}  : %msg%n"/>
+
+
+    <!-- ****************************************************************************************** -->
+    <!-- ****************************** 本地开发只在控制台打印日志 ************************************ -->
+    <!-- ****************************************************************************************** -->
+    <!-- 控制台输出   -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DEBUG appender  -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME_PATH}/debug/debug-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <MaxFileSize>${MAX_FILESIZE}</MaxFileSize>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <!-- INFO appender  -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME_PATH}/info/info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <MaxFileSize>${MAX_FILESIZE}</MaxFileSize>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <!-- WARN appender  -->
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME_PATH}/warn/warn-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <MaxFileSize>${MAX_FILESIZE}</MaxFileSize>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <!-- ERROR appender  -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME_PATH}/error/error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <MaxFileSize>${MAX_FILESIZE}</MaxFileSize>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+    </root>
+
+
+</configuration>

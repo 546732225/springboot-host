@@ -1,5 +1,6 @@
 package com.example.data.framework;
 
+import com.example.data.context.RequestContextHolder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,8 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -31,14 +30,14 @@ public class RestResponse<T> {
     private RestResponse() {
         this.code = 200;
         this.message = "SUCCESS";
-        this.requestId = UUID.randomUUID().toString().replace("-", "").toLowerCase(Locale.ROOT);
+        this.requestId = RequestContextHolder.getInstance().getRequestId();
         this.timestamp = LocalDateTime.now();
     }
 
     private RestResponse(Integer code, String message) {
         this.code = code;
         this.message = message;
-        this.requestId = UUID.randomUUID().toString().replace("-", "").toLowerCase(Locale.ROOT);
+        this.requestId = RequestContextHolder.getInstance().getRequestId();
         this.timestamp = LocalDateTime.now();
     }
 

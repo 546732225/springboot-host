@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class GsonUtil {
+public class GsonUtils {
     //不用创建对象,直接使用Gson.就可以调用方法
     private static Gson gson = null;
 
@@ -19,7 +19,7 @@ public class GsonUtil {
     }
 
     //无参的私有构造方法
-    private GsonUtil() {
+    private GsonUtils() {
     }
 
     /**

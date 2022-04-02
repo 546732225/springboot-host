@@ -34,6 +34,7 @@ public class TransformController {
 
 
     @GetMapping("detail")
+    @ApiOperation(value = "查询详情", notes = "查询详情")
     public RestResponse<Object> detail() throws InterruptedException {
         return RestResponse.success(userService.detail("1507239673481695233"));
     }

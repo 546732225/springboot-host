@@ -3,6 +3,7 @@ package com.example.data.config;
 
 import com.example.data.core.CacheKeyGenerator;
 import com.example.data.core.CacheKeyGeneratorImp;
+import com.example.data.interceptor.ContextInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -73,7 +74,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("locale");
         registry.addInterceptor(interceptor).addPathPatterns("/**");
-
+        registry.addInterceptor(new ContextInterceptor()).addPathPatterns("/**");
     }
 
 
