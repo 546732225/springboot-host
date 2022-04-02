@@ -9,6 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @author seven
  */
 
+@Order(1)
 @Aspect
 @Component
 public class LockMethodInterceptor {
@@ -36,7 +38,7 @@ public class LockMethodInterceptor {
         LocalLock localLock = method.getAnnotation(LocalLock.class);
         String key = getKey(localLock.key(), joinPoint.getArgs());
         if (!StringUtils.isEmpty(key)) {
-      
+
             if (CACHE.getIfPresent(key) != null) {
                 throw new DuplicateRequestException("请勿重复请求！");
             }
@@ -45,6 +47,8 @@ public class LockMethodInterceptor {
         try {
             return joinPoint.proceed();
         } catch (Throwable throwable) {
+
+            throwable.printStackTrace();
             throw new RuntimeException("服务器异常");
         }
     }

@@ -7,7 +7,12 @@ import java.util.List;
 
 public interface UserService {
 
+
+
+
     List<UserEntity> list(UserQuery query);
+
+
 
     UserEntity detail(String id);
 

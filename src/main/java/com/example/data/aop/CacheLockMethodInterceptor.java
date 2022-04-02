@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +18,8 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 
+
+@Order(2)
 @Aspect
 @Configuration
 public class CacheLockMethodInterceptor {

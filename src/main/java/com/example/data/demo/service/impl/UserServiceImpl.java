@@ -3,6 +3,8 @@ package com.example.data.demo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.data.annotation.DictParam;
+import com.example.data.annotation.TranslationDict;
 import com.example.data.demo.domain.UserEntity;
 import com.example.data.demo.mapper.UserMapper;
 import com.example.data.demo.query.UserQuery;
@@ -21,6 +23,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @TranslationDict({
+            @DictParam(dictCode = "gender", dictValueFiled = "gender", dictNameFiled = "genderName"),
+            @DictParam(dictCode = "status", dictValueFiled = "status", dictNameFiled = "statusName")
+    })
     public List<UserEntity> list(UserQuery query) {
         LambdaQueryWrapper<UserEntity> wrapper = Wrappers.<UserEntity>lambdaQuery();
         wrapper.eq(StringUtils.isNotBlank(query.getUsername()),UserEntity::getUsername, query.getUsername());
@@ -29,6 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @TranslationDict({
+            @DictParam(dictCode = "gender", dictValueFiled = "gender", dictNameFiled = "genderName"),
+            @DictParam(dictCode = "status", dictValueFiled = "status", dictNameFiled = "statusName")
+    })
     @Transactional(rollbackFor = Exception.class)
     public UserEntity detail(String id) {
         return this.userMapper.selectById(id);

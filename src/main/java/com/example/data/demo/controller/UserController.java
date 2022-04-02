@@ -6,8 +6,6 @@ import com.example.data.demo.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import com.example.data.framework.RestResponse;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +24,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private MessageSource messageSource;
-
-//    @GetMapping("user")
-//    @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
-//    public RestResponse<List<UserEntity>> list(@Validated UserQuery query) {
-//        return RestResponse.success(userService.list(query));
-//    }
 
 
     @GetMapping("user")
@@ -71,7 +60,6 @@ public class UserController {
     @GetMapping("user/{id}")
     @ApiOperation(value = "查询用户详情")
     public RestResponse<UserEntity> detail(@PathVariable("id") String id) throws InterruptedException {
-        Thread.sleep(1000);
         return RestResponse.success(userService.detail(id));
     }
 
