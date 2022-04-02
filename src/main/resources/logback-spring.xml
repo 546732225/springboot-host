@@ -15,7 +15,7 @@
 
     <!--配置变量-->
     <!--文件路径前缀-->
-    <property name="LOG_HOME_PATH" value="logs/${APPLICATION_NAME}"/>
+    <property name="LOG_HOME_PATH" value="logs"/>
     <!--    <property name="CONSOLE_LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} | %highlight(%-5level) | %boldYellow(%thread) | %boldGreen(%logger) | [%c{0}:%L] : %msg%n"/>-->
     <property name="CONSOLE_LOG_PATTERN"
               value="%green(%date{yyyy-MM-dd HH:mm:ss}){faint} | %magenta(%lsn)| %highlight(%-5level) | %cyan(%X{requestId}) | %yellow(%thread)| %green(%logger{50}) | [%c{0}:%L] : %cyan(%msg%n)"/>
@@ -121,9 +121,9 @@
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="INFO_FILE"/>
-        <appender-ref ref="ERROR_FILE"/>
-        <appender-ref ref="WARN_FILE"/>
+<!--        <appender-ref ref="INFO_FILE"/>-->
+<!--        <appender-ref ref="ERROR_FILE"/>-->
+<!--        <appender-ref ref="WARN_FILE"/>-->
     </root>
 
 

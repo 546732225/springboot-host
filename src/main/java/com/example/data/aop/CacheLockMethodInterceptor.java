@@ -1,7 +1,7 @@
 package com.example.data.aop;
 
 import com.example.data.annotation.CacheLock;
-import com.example.data.core.CacheKeyGenerator;
+import com.example.data.cache.CacheKeyGenerator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

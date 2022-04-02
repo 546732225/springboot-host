@@ -1,8 +1,8 @@
 package com.example.data.config;
 
 
-import com.example.data.core.CacheKeyGenerator;
-import com.example.data.core.CacheKeyGeneratorImp;
+import com.example.data.cache.CacheKeyGenerator;
+import com.example.data.cache.CacheKeyGeneratorImp;
 import com.example.data.interceptor.ContextInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

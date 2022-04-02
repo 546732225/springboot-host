@@ -1,4 +1,4 @@
-package com.example.data.core;
+package com.example.data.cache;
 
 import com.example.data.annotation.CacheLock;
 import com.example.data.annotation.CacheParam;
@@ -16,6 +16,9 @@ import java.lang.reflect.Parameter;
  * @author seven
  */
 public class CacheKeyGeneratorImp implements CacheKeyGenerator {
+
+
+
     @Override
     public String getLockKey(ProceedingJoinPoint joinPoint) {
         //获取连接点的方法签名对象
