@@ -2,7 +2,7 @@ package com.example.data.config;
 
 
 import com.example.data.cache.CacheKeyGenerator;
-import com.example.data.cache.CacheKeyGeneratorImp;
+import com.example.data.cache.CacheKeyGeneratorImpl;
 import com.example.data.interceptor.ContextInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Bean
     public CacheKeyGenerator cacheKeyGenerator(){
-        return new CacheKeyGeneratorImp();
+        return new CacheKeyGeneratorImpl();
     }
 
 

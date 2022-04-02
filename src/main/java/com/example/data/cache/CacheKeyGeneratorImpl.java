@@ -15,7 +15,7 @@ import java.lang.reflect.Parameter;
 /**
  * @author seven
  */
-public class CacheKeyGeneratorImp implements CacheKeyGenerator {
+public class CacheKeyGeneratorImpl implements CacheKeyGenerator {
 
 
 

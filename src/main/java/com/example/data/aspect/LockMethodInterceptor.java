@@ -1,4 +1,4 @@
-package com.example.data.aop;
+package com.example.data.aspect;
 
 import com.example.data.annotation.LocalLock;
 import com.example.data.exception.DuplicateRequestException;
