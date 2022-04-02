@@ -17,6 +17,9 @@ public class RestResponse<T> {
     @ApiModelProperty(example = "200", value = "响应编码")
     private Integer code;
 
+    @ApiModelProperty(example = "true", value = "响应状态")
+    private Boolean success;
+
     @ApiModelProperty(example = "success", value = "响应消息")
     private String message;
 
@@ -29,6 +32,7 @@ public class RestResponse<T> {
 
     private RestResponse() {
         this.code = 200;
+        this.success=Boolean.TRUE;
         this.message = "SUCCESS";
         this.requestId = RequestContextHolder.getInstance().getRequestId();
         this.timestamp = LocalDateTime.now();
@@ -36,6 +40,7 @@ public class RestResponse<T> {
 
     private RestResponse(Integer code, String message) {
         this.code = code;
+        this.success=Boolean.TRUE;
         this.message = message;
         this.requestId = RequestContextHolder.getInstance().getRequestId();
         this.timestamp = LocalDateTime.now();
@@ -102,6 +107,7 @@ public class RestResponse<T> {
             super(code, message);
             this.error = error;
             this.path = path;
+            super.success=Boolean.FALSE;
         }
     }
 
