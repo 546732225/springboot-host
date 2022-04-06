@@ -14,6 +14,9 @@ import java.util.Date;
 @TableName("tb_user")
 public class UserEntity implements Serializable {
 
+    public UserEntity() {
+    }
+
     @TableId
     private String id;
 
