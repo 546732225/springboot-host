@@ -26,6 +26,17 @@ public class UserController {
     private UserService userService;
 
 
+
+
+    @GetMapping("user2")
+    @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
+    public RestResponse<List<UserEntity>> user2(@Validated UserQuery query) {
+        return RestResponse.success(userService.list2(query));
+    }
+
+
+
+
     @GetMapping("user")
     @LocalLock(key = "localLock:user:arg[0]")
     @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)

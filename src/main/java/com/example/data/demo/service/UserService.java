@@ -12,6 +12,8 @@ public interface UserService {
 
     List<UserEntity> list(UserQuery query);
 
+    List<UserEntity> list2(UserQuery query);
+
 
 
     UserEntity detail(String id);

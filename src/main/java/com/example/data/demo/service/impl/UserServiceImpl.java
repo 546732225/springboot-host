@@ -3,6 +3,7 @@ package com.example.data.demo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.example.data.annotation.FieldParam;
 import com.example.data.annotation.TranslationField;
 import com.example.data.demo.domain.UserEntity;
@@ -32,6 +33,13 @@ public class UserServiceImpl implements UserService {
         wrapper.eq(StringUtils.isNotBlank(query.getUsername()),UserEntity::getUsername, query.getUsername());
         wrapper.orderByAsc(UserEntity::getAge);
         return userMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<UserEntity> list2(UserQuery query) {
+
+        return new LambdaQueryChainWrapper<>(userMapper)
+                .like(UserEntity::getName, "雨").ge(UserEntity::getAge, 20).list();
     }
 
     @Override
