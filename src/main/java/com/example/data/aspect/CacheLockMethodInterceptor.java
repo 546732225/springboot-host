@@ -51,7 +51,7 @@ public class CacheLockMethodInterceptor {
         final Boolean success = stringRedisTemplate.execute(
                 (RedisCallback<Boolean>) connection -> connection.set(lockKey.getBytes(), new byte[0], Expiration.from(cacheLock.expire(), cacheLock.timeUnit())
                         , RedisStringCommands.SetOption.SET_IF_ABSENT));
-        if (!success) {
+        if (Boolean.FALSE.equals(success)) {
             // TODO 按理来说 我们应该抛出一个自定义的 CacheLockException 异常;这里偷下懒
             throw new RuntimeException("请勿重复请求");
         }

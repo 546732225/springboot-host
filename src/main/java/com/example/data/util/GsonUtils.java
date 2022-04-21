@@ -24,9 +24,6 @@ public class GsonUtils {
 
     /**
      * 将对象转成json格式
-     *
-     * @param object
-     * @return String
      */
     public static String gsonString(Object object) {
         String gsonString = null;
@@ -38,10 +35,6 @@ public class GsonUtils {
 
     /**
      * 将json转成特定的cls的对象
-     *
-     * @param gsonString 字符串
-     * @param cls
-     * @return
      */
     public static <T> T gsonToBean(String gsonString, Class<T> cls) {
         T t = null;
@@ -54,10 +47,6 @@ public class GsonUtils {
 
     /**
      * json字符串转成list
-     *
-     * @param gsonString 字符串
-     * @param cls
-     * @return
      */
     public static <T> List<T> gsonToList(String gsonString, Class<T> cls) {
         List<T> list = null;
