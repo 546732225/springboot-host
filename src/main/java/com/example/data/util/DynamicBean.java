@@ -80,7 +80,7 @@ public class DynamicBean {
         UserEntity entity = new UserEntity();
         entity.setUsername("eee");
         entity.setPassword("222");
-        Map<String, Object> addProperties = new HashMap() {{
+        Map<String, Object> addProperties = new HashMap<String, Object>() {{
             put("动态属性名", "动态属性值");
         }};
         UserEntity finalPicBaseReqVo = (UserEntity) PicBeanAddPropertiesUtil.getTarget(entity, addProperties);

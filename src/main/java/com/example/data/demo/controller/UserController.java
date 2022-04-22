@@ -81,7 +81,7 @@ public class UserController {
 
     @GetMapping("user/{id}")
     @ApiOperation(value = "查询用户详情")
-    public RestResponse<UserEntity> detail(@PathVariable("id") String id) throws InterruptedException {
+    public RestResponse<UserEntity> detail(@PathVariable("id") String id){
         return RestResponse.success(userService.detail(id));
     }
 

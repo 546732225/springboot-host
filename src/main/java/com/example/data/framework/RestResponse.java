@@ -101,13 +101,16 @@ public class RestResponse<T> {
 
         private FailureEntity(Integer code, String message) {
             super(code, message);
+            super.success=Boolean.FALSE;
+            super.message = "error";
         }
 
         private FailureEntity(Integer code, String message, Object error, String path) {
             super(code, message);
-            this.error = error;
-            this.path = path;
             super.success=Boolean.FALSE;
+            super.message = "error";
+            this.path = path;
+            this.error = error;
         }
     }
 
