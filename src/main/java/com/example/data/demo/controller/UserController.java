@@ -5,11 +5,12 @@ import com.example.data.demo.domain.UserEntity;
 import com.example.data.demo.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import com.example.data.framework.RestResponse;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+
+
+    @GetMapping("page")
+    @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
+    public RestResponse<PageInfo<UserEntity>> page(@Validated UserQuery query) {
+
+        PageHelper.startPage(1,10);
+        return RestResponse.success(new PageInfo<>(userService.list(query)));
+    }
 
 
 
