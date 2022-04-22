@@ -32,9 +32,7 @@ public class UserController {
     @GetMapping("page")
     @ApiOperation(value = "查询用户列表", notes = "分页查询用户列表", response = RestResponse.class)
     public RestResponse<PageInfo<UserEntity>> page(@Validated UserQuery query) {
-
-        PageHelper.startPage(1,10);
-        return RestResponse.success(new PageInfo<>(userService.list(query)));
+        return RestResponse.success(PageHelper.startPage(1, 10).doSelectPageInfo(() -> userService.list(query)));
     }
 
 
