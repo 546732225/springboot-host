@@ -47,7 +47,7 @@ public class CacheLockMethodInterceptor {
             throw new RuntimeException("前缀不能为空");
         }
         //获取自定义key
-        final String lockKey = cacheKeyGenerator.getLockKey(joinPoint);
+        final String lockKey = cacheKeyGenerator.generateCacheLockKey(joinPoint);
         final Boolean success = stringRedisTemplate.execute(
                 (RedisCallback<Boolean>) connection -> connection.set(lockKey.getBytes(), new byte[0], Expiration.from(cacheLock.expire(), cacheLock.timeUnit())
                         , RedisStringCommands.SetOption.SET_IF_ABSENT));

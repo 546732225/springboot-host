@@ -20,7 +20,7 @@ public class CacheKeyGeneratorImpl implements CacheKeyGenerator {
 
 
     @Override
-    public String getLockKey(ProceedingJoinPoint joinPoint) {
+    public String generateCacheLockKey(ProceedingJoinPoint joinPoint) {
         //获取连接点的方法签名对象
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         //Method对象
