@@ -8,15 +8,21 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface FieldParam {
-
-
-    String dictCode() default "";
-
-
-    String dictValueFiled() default "";
-
-
-    String dictNameFiled() default "";
-
-    int type() default 0;
+    
+    
+    /**
+     * 字典表的值
+     */
+    String code() default "";
+    
+    /**
+     * 实体类中字典属性
+     */
+    String sourceFiled() default "";
+    
+    /**
+     * 实体类中给字典赋值属性
+     */
+    String targetFiled() default "";
+   
 }

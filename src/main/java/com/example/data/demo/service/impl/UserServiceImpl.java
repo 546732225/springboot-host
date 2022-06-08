@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @TranslationField({
-            @FieldParam(dictCode = "gender", dictValueFiled = "gender", dictNameFiled = "genderName"),
-            @FieldParam(dictCode = "status", dictValueFiled = "status", dictNameFiled = "statusName")
+            @FieldParam(code = "gender", sourceFiled = "gender", targetFiled = "genderName"),
+            @FieldParam(code = "status", sourceFiled = "status", targetFiled = "statusName")
     })
     public List<UserEntity> list(UserQuery query) {
         LambdaQueryWrapper<UserEntity> wrapper = Wrappers.<UserEntity>lambdaQuery();
@@ -42,10 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @TranslationField({
-            @FieldParam(dictCode = "gender", dictValueFiled = "gender", dictNameFiled = "genderName"),
-            @FieldParam(dictCode = "status", dictValueFiled = "status", dictNameFiled = "statusName")
-    })
+    @TranslationField
     public UserEntity detail(String id) {
         return this.userMapper.selectById(id);
     }

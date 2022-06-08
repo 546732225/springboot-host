@@ -1,5 +1,6 @@
 package com.example.data.demo.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.data.annotation.FieldParam;
@@ -32,13 +33,18 @@ public class UserEntity implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
-
-
+    
+    @FieldParam(code = "status", sourceFiled = "status", targetFiled = "statusName")
     private String status;
-
-
-    @FieldParam
+    
+    @FieldParam(code = "gender", sourceFiled = "gender", targetFiled = "genderName")
     private String gender;
-
+    
+    @TableField(exist = false)
+    private String statusName;
+    
+    @TableField(exist = false)
+    private String genderName;
+    
 
 }
