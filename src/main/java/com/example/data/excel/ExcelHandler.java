@@ -14,7 +14,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.StopWatch;
-import org.springframework.util.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -27,27 +26,51 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class ExcelHandler {
-
+    
+    /**
+     * @param clazz       读取转换类
+     * @param inputStream 文件
+     * @param <T>         类型
+     * @return 集合类
+     * @throws Exception 异常信息
+     */
+    public static <T> List<T> readExcel(Class<T> clazz, InputStream inputStream) throws Exception {
+        return doReadExcel(0, clazz, inputStream);
+    }
+    
+    /**
+     * @param sheetIndex  sheet序列号
+     * @param clazz       读取转换类
+     * @param inputStream 文件
+     * @param <T>         类型
+     * @return 集合类
+     * @throws Exception 异常信息
+     */
+    public static <T> List<T> readExcel(Integer sheetIndex, Class<T> clazz, InputStream inputStream) throws Exception {
+        return doReadExcel(sheetIndex, clazz, inputStream);
+    }
+    
+    
     /**
      * 读取Excel文件的内容
      *
      * @param inputStream excel文件，以InputStream的形式传入
-     * @param sheetName   sheet名字
+     * @param sheetIndex  sheet序列号
      * @return 以List返回excel中内容
      */
-    public static List<Map<String, String>> readExcel(InputStream inputStream, String sheetName) throws IOException {
-
+    public static List<Map<String, String>> readExcel(InputStream inputStream, Integer sheetIndex) throws IOException {
+        
         //定义工作簿
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
         //定义工作表
         XSSFSheet xssfSheet;
-        if (StringUtils.isEmpty(sheetName)) {
+        if (Objects.isNull(sheetIndex)) {
             // 默认取第一个子表
             xssfSheet = xssfWorkbook.getSheetAt(0);
         } else {
-            xssfSheet = xssfWorkbook.getSheet(sheetName);
+            xssfSheet = xssfWorkbook.getSheetAt(sheetIndex);
         }
-
+        
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         //默认第一行为标题行，index = 0
         XSSFRow titleRow = xssfSheet.getRow(0);
@@ -66,20 +89,17 @@ public class ExcelHandler {
             }
             list.add(map);
         }
-
+        
         return list;
     }
-
-    public static <T> List<T> readExcel(Class<T> clazz, InputStream inputStream) throws Exception {
-        return doReadExcel("", clazz, inputStream);
-    }
-
-    public static <T> List<T> doReadExcel(String sheetName, Class<T> clazz, InputStream inputStream) throws Exception {
+    
+    
+    public static <T> List<T> doReadExcel(Integer sheetIndex, Class<T> clazz, InputStream inputStream) throws Exception {
         //获取属性
         List<Field> fields = Arrays.stream(clazz.getDeclaredFields())
                 .filter(item -> item.getAnnotation(ExcelAttribute.class) != null)
                 .collect(Collectors.toList());
-
+        
         StopWatch sw = new StopWatch("ReadExcel");
         sw.start("读取Excel文件内容");
         //使用缓冲流 提高效率
@@ -87,13 +107,15 @@ public class ExcelHandler {
         //定义工作簿
         SXSSFWorkbook xssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook(bufferedInputStream));
         XSSFSheet sheet;
-        if (StringUtils.isEmpty(sheetName)) {
+        if (Objects.isNull(sheetIndex)) {
             // 默认取第一个子表
             sheet = xssfWorkbook.getXSSFWorkbook().getSheetAt(0);
         } else {
-            sheet = xssfWorkbook.getXSSFWorkbook().getSheet(sheetName);
+            sheet = xssfWorkbook.getXSSFWorkbook().getSheetAt(sheetIndex);
+            
         }
-
+        
+        
         sw.stop();
         sw.start("解析文件内容");
         List<T> list = new ArrayList<>();
@@ -120,15 +142,15 @@ public class ExcelHandler {
         log.info("###读取Excel文件共计耗时：{}毫秒,{}", sw.getTotalTimeMillis(), sw.prettyPrint());
         return list;
     }
-
-
+    
+    
     /**
      * 把单元格的内容转为字符串
      *
      * @param xssfCell 单元格
      * @return 字符串
      */
-    public static Object getString(CellBase xssfCell) {
+    private static Object getString(CellBase xssfCell) {
         if (xssfCell == null) {
             return "";
         }
@@ -142,24 +164,21 @@ public class ExcelHandler {
                 return xssfCell.getDateCellValue();
             } else {
                 //是数值类型  解决科学计数法
-                BigDecimal bigDecimal = BigDecimal.valueOf(xssfCell.getNumericCellValue());
-                return bigDecimal.toPlainString();
+                return BigDecimal.valueOf(xssfCell.getNumericCellValue()).toPlainString();
             }
-        } else if (xssfCell.getCellType() == CellType.STRING) {
-            return xssfCell.getStringCellValue();
         } else {
             return xssfCell.getStringCellValue();
         }
-
-
+        
+        
     }
-
+    
     /**
      * 将EXCEL中A,B,C,D,E列映射成0,1,2,3
      *
      * @param col 序列号
      */
-    public static int getExcelCellIndex(String col) {
+    private static int getExcelCellIndex(String col) {
         col = col.toUpperCase();
         // 从-1开始计算,字母重1开始运算。这种总数下来算数正好相同。
         int count = -1;
@@ -169,6 +188,6 @@ public class ExcelHandler {
         }
         return count;
     }
-
-
+    
+    
 }

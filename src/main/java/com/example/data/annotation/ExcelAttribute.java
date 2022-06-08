@@ -39,5 +39,6 @@ public @interface ExcelAttribute {
      * 字段类型校验的格式
      */
     String[] validate() default "";
+    
 
 }
