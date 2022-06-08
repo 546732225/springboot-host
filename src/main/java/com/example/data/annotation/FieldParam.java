@@ -13,16 +13,16 @@ public @interface FieldParam {
     /**
      * 字典表的值
      */
-    String code() default "";
+    String code();
     
     /**
      * 实体类中字典属性
      */
-    String sourceFiled() default "";
+    String sourceFiled();
     
     /**
      * 实体类中给字典赋值属性
      */
-    String targetFiled() default "";
+    String targetFiled() ;
    
 }
