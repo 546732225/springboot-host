@@ -1,6 +1,6 @@
 package com.example.data.handle;
 
-import com.example.data.filter.HTMLFilter;
+import com.example.data.filter.HtmlFilter;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +29,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     
     
     
-    private final static HTMLFilter htmlFilter = new HTMLFilter();
+    private final static HtmlFilter htmlFilter = new HtmlFilter();
     
     
     @Override

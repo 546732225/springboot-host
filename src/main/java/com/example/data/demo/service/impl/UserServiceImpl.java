@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.example.data.annotation.FieldParam;
 import com.example.data.annotation.TranslationField;
-import com.example.data.demo.domain.UserEntity;
+import com.example.data.demo.domain.entity.UserEntity;
 import com.example.data.demo.mapper.UserMapper;
-import com.example.data.demo.query.UserQuery;
+import com.example.data.demo.domain.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> list2(UserQuery query) {
-
         return new LambdaQueryChainWrapper<>(userMapper)
                 .like(UserEntity::getName, "雨").ge(UserEntity::getAge, 20).list();
     }

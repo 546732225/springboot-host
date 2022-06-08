@@ -1,4 +1,4 @@
-package com.example.data.demo.query;
+package com.example.data.demo.domain.query;
 
 
 import com.example.data.annotation.CheckSqlInjection;

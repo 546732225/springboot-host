@@ -1,8 +1,7 @@
-package com.example.data.demo.domain;
+package com.example.data.demo.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.example.data.annotation.CheckSqlInjection;
 import com.example.data.annotation.FieldParam;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -20,19 +19,14 @@ public class UserEntity implements Serializable {
     @TableId
     private String id;
 
-    @CheckSqlInjection
     private String name;
 
-    @CheckSqlInjection
     private Integer age;
 
-    @CheckSqlInjection
     private String username;
 
-    @CheckSqlInjection
     private String password;
 
-    @CheckSqlInjection
     private String address;
 
 

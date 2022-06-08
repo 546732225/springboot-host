@@ -1,6 +1,6 @@
 package com.example.data.reflect;
 
-import com.example.data.demo.domain.UserEntity;
+import com.example.data.demo.domain.entity.UserEntity;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyValue;

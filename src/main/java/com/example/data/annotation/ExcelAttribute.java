@@ -28,7 +28,7 @@ public @interface ExcelAttribute {
     /**
      * 对应的列类型 默认字符串类型
      */
-    FiledFormatType type() default FiledFormatType.STRING;
+    ExcelFiledType type() default ExcelFiledType.STRING;
 
     /**
      * 字段类型对应的格式

@@ -1,6 +1,6 @@
 package com.example.data.demo.service;
 
-import com.example.data.demo.domain.RegionEntity;
+import com.example.data.demo.domain.entity.RegionEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

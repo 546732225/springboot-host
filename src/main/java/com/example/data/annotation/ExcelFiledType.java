@@ -1,6 +1,6 @@
 package com.example.data.annotation;
 
-public enum FiledFormatType {
+public enum ExcelFiledType {
 
     DATE("DATE", "日期"),
     DECIMAL("DECIMAL", "小数"),
@@ -10,7 +10,7 @@ public enum FiledFormatType {
     String type;
     String name;
 
-    FiledFormatType(String type, String name) {
+    ExcelFiledType(String type, String name) {
         this.type = type;
         this.name = name;
     }

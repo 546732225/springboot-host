@@ -1,8 +1,8 @@
 package com.example.data.demo.controller;
 
 import com.example.data.annotation.LocalLock;
-import com.example.data.demo.domain.UserEntity;
-import com.example.data.demo.query.UserQuery;
+import com.example.data.demo.domain.entity.UserEntity;
+import com.example.data.demo.domain.query.UserQuery;
 import com.example.data.demo.service.UserService;
 import com.example.data.framework.RestResponse;
 import com.github.pagehelper.PageHelper;

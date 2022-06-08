@@ -1,7 +1,7 @@
 package com.example.data.util;
 
 
-import com.example.data.demo.domain.UserEntity;
+import com.example.data.demo.domain.entity.UserEntity;
 import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.beans.BeanMap;
 

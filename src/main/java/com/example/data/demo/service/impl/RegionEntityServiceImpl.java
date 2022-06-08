@@ -1,7 +1,7 @@
 package com.example.data.demo.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.data.demo.domain.RegionEntity;
+import com.example.data.demo.domain.entity.RegionEntity;
 import com.example.data.demo.service.RegionEntityService;
 import com.example.data.demo.mapper.RegionEntityMapper;
 import org.springframework.stereotype.Service;

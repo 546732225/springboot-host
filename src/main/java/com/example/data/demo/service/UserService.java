@@ -1,7 +1,7 @@
 package com.example.data.demo.service;
 
-import com.example.data.demo.domain.UserEntity;
-import com.example.data.demo.query.UserQuery;
+import com.example.data.demo.domain.entity.UserEntity;
+import com.example.data.demo.domain.query.UserQuery;
 
 import java.util.List;
 
