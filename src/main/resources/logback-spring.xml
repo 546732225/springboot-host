@@ -119,7 +119,10 @@
     </appender>
 
 
-    <root level="INFO">
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="TRACE">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <root level="TRACE">
         <appender-ref ref="CONSOLE"/>
 <!--        <appender-ref ref="INFO_FILE"/>-->
 <!--        <appender-ref ref="ERROR_FILE"/>-->

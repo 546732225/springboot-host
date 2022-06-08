@@ -49,17 +49,17 @@ public class RestResponse<T> {
     public static <T> RestResponse<T> success(T data) {
         return new SuccessEntity<>(data);
     }
-    public static RestResponse<Void> success() {
+    public static RestResponse<String> success() {
         return new SuccessEntity<>();
     }
 
 
-    public static RestResponse<Void> error(Integer code, String message) {
-        return new FailureEntity<>(code, message);
+    public static RestResponse<String> error(Integer code, String message) {
+        return new FailureEntity<String>(code, message);
     }
 
-    public static RestResponse<Void> error(Integer code, String message, Object error, String path) {
-        return new FailureEntity<>(code, message, error, path);
+    public static RestResponse<String> error(Integer code, String message, Object error, String path) {
+        return new FailureEntity<String>(code, message, error, path);
     }
 
 
@@ -91,7 +91,7 @@ public class RestResponse<T> {
 
     @Getter
     @Setter
-    private static class FailureEntity<Void> extends RestResponse<Void> {
+    private static class FailureEntity<T> extends RestResponse<T> {
 
         @ApiModelProperty(example = "string", value = "错误信息")
         private Object error;

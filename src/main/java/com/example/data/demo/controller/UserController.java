@@ -57,7 +57,7 @@ public class UserController {
     @PostMapping("user")
     @LocalLock(key = "localLock:insert:user:arg[0]")
     @ApiOperation(value = "新增用户", notes = "新增用户信息", response = RestResponse.class)
-    public RestResponse<Void> insert(@RequestBody UserEntity entity) {
+    public RestResponse<String> insert(@RequestBody UserEntity entity) {
         userService.insert(entity);
         return RestResponse.success();
     }
@@ -65,14 +65,14 @@ public class UserController {
 
     @PutMapping("user")
     @ApiOperation(value = "修改用户")
-    public RestResponse<Void> update(@RequestBody UserEntity entity) {
+    public RestResponse<String> update(@RequestBody UserEntity entity) {
         userService.update(entity);
         return RestResponse.success();
     }
 
     @PatchMapping("user")
     @ApiOperation(value = "修改用户")
-    public RestResponse<Void> patch(@RequestBody UserEntity entity) {
+    public RestResponse<String> patch(@RequestBody UserEntity entity) {
         userService.update(entity);
         return RestResponse.success();
     }
@@ -86,7 +86,7 @@ public class UserController {
 
     @DeleteMapping("user/{id}")
     @ApiOperation(value = "删除用户")
-    public RestResponse<Void> delete(@PathVariable("id") String id) {
+    public RestResponse<String> delete(@PathVariable("id") String id) {
         userService.delete(id);
         return RestResponse.success();
     }

@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -25,7 +24,7 @@ public class CacheController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "token", value = "token", dataType = "String")})
     @LocalLock(key = "localLock:test:arg[0]")
-    public RestResponse<Void> localLock(String token) {
+    public RestResponse<String> localLock(String token) {
         return RestResponse.success();
     }
 

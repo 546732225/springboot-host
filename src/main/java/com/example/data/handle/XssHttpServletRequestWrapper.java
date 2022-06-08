@@ -1,120 +1,140 @@
 package com.example.data.handle;
 
+import com.example.data.filter.HTMLFilter;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
+    
+    //没被包装过的HttpServletRequest（特殊场景，需要自己过滤）
+    HttpServletRequest request;
 
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
+        this.request=request;
     }
-
-    @Override
-    public String[] getParameterValues(String parameter) {
-        String[] values = super.getParameterValues(parameter);
-        if (values == null) {
-            return null;
-        }
-        int count = values.length;
-        String[] encodedValues = new String[count];
-        for (int i = 0; i < count; i++) {
-            encodedValues[i] = cleanXss(values[i]);
-        }
-        return encodedValues;
-    }
-
-    @Override
-    public String getParameter(String parameter) {
-        String value = super.getParameter(parameter);
-        if (value != null) {
-            return cleanXss(value);
-        }
-        return null;
-    }
-
-    @Override
-    public String getHeader(String name) {
-        String value = super.getHeader(name);
-        if (value == null)
-            return null;
-        return cleanXss(value);
-    }
-
-    private static String cleanXss(String value) {
-        value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        value = value.replaceAll("%3C", "&lt;").replaceAll("%3E", "&gt;");
-        value = value.replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;");
-        value = value.replaceAll("%28", "&#40;").replaceAll("%29", "&#41;");
-        value = value.replaceAll("'", "&#39;");
-        value = value.replaceAll("eval\\((.*)\\)", "");
-        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
-        return value;
-    }
-
+    
+    
+    
+    private final static HTMLFilter htmlFilter = new HTMLFilter();
+    
+    
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(inputHandlers(super.getInputStream()).getBytes());
-
+        //非json类型，直接返回
+        if(!MediaType.APPLICATION_JSON_VALUE.equalsIgnoreCase(super.getHeader(HttpHeaders.CONTENT_TYPE))){
+            return super.getInputStream();
+        }
+        
+        //为空，直接返回
+        String json = IOUtils.toString(super.getInputStream(), StandardCharsets.UTF_8);
+        if (StringUtils.isBlank(json)) {
+            return super.getInputStream();
+        }
+        
+        //xss过滤
+        json = xssEncode(json);
+        final ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         return new ServletInputStream() {
-
-            @Override
-            public int read() throws IOException {
-                return byteArrayInputStream.read();
-            }
-
             @Override
             public boolean isFinished() {
-                return false;
+                return true;
             }
-
+            
             @Override
             public boolean isReady() {
-                return false;
+                return true;
             }
-
+            
             @Override
             public void setReadListener(ReadListener readListener) {
+            
+            }
+            
+            @Override
+            public int read() {
+                return bis.read();
             }
         };
     }
-
-    public String inputHandlers(ServletInputStream servletInputStream) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(servletInputStream, StandardCharsets.UTF_8));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (servletInputStream != null) {
-                try {
-                    servletInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+    
+    @Override
+    public String getParameter(String name) {
+        String value = super.getParameter(xssEncode(name));
+        if (StringUtils.isNotBlank(value)) {
+            value = xssEncode(value);
         }
-        return cleanXss(sb.toString());
+        return value;
+    }
+    
+    @Override
+    public String[] getParameterValues(String name) {
+        String[] parameters = super.getParameterValues(name);
+        if (parameters == null || parameters.length == 0) {
+            return null;
+        }
+        
+        for (int i = 0; i < parameters.length; i++) {
+            parameters[i] = xssEncode(parameters[i]);
+        }
+        return parameters;
+    }
+    
+    @Override
+    public Map<String,String[]> getParameterMap() {
+        Map<String,String[]> map = new LinkedHashMap<>();
+        Map<String,String[]> parameters = super.getParameterMap();
+        for (String key : parameters.keySet()) {
+            String[] values = parameters.get(key);
+            for (int i = 0; i < values.length; i++) {
+                values[i] = xssEncode(values[i]);
+            }
+            map.put(key, values);
+        }
+        return map;
+    }
+    
+    @Override
+    public String getHeader(String name) {
+        String value = super.getHeader(xssEncode(name));
+        if (StringUtils.isNotBlank(value)) {
+            value = xssEncode(value);
+        }
+        return value;
+    }
+    
+    private String xssEncode(String input) {
+        return htmlFilter.filter(input);
+    }
+    
+    /**
+     * 获取最原始的request
+     */
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+    
+    /**
+     * 获取最原始的request
+     */
+    public static HttpServletRequest getHttpServletRequest(HttpServletRequest request) {
+        if (request instanceof XssHttpServletRequestWrapper) {
+            return ((XssHttpServletRequestWrapper) request).getRequest();
+        }
+        return request;
     }
 
 }
